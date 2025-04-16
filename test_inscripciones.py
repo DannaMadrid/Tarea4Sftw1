@@ -1,11 +1,7 @@
 """importando librerias necesarias para el test"""
-import csv
-import os
-import tempfile
 import unittest
 from datetime import date
 from controlArchivoCSV import ControlArchivoCSV
-from controlProcesoInscripciones import ControlProcesoInscripcion
 from inscripcion import Inscripcion
 from estudiantes import Estudiante
 from materia import Materia
@@ -41,14 +37,31 @@ class TestInscripciones(unittest.TestCase):
 
 class TestControlArchivoCSV(unittest.TestCase):
     """Test para la clase ControlArchivoCSV que maneja la carga de datos desde un archivo CSV."""
+
+    def test_calcular_total_materias(self):
+        """Test para calcular el total de materias inscritas por cada estudiante."""
+        ruta_archivo = "archivosCSV/valido.csv"
+
+        inscripciones = self.control.cargar_datos(ruta_archivo)
+        contador = {}
+
+        for ins in inscripciones:
+            estudiante = ins.getestudiante()
+            nombre = estudiante.getnombre_estudiante()
+            contador[nombre] = contador.get(nombre, 0) + 1
+
+        self.assertEqual(contador["Lulú López"], 2)
+        self.assertEqual(contador["Pepito Pérez"], 1)
+        self.assertEqual(contador["Calvin Clein"], 2)
+
     def setUp(self):
         self.control = ControlArchivoCSV()
+
     def test_0_archivo_valido(self):
-        """Archivo CSV válido y completo.
-        Comprueba que el método carga correctamente todos los datos cuando el archivo existe y tiene el formato esperado.
-        """
-        #Ruta del archivo de prueba
+        """Verifica que el método cargue correctamente los datos de un archivo CSV válido."""
+    # Ruta del archivo de prueba
         ruta_archivo = "archivosCSV/valido.csv"
+
 
         # Crear instancia del controlador y ejecutar método
         controlador = ControlArchivoCSV()
@@ -100,7 +113,7 @@ class TestControlArchivoCSV(unittest.TestCase):
             1234567,Lulú López,1060,Administración”
         """
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV\lineasDuplicadas.csv"
+        ruta_archivo = "archivosCSV\\lineasDuplicadas.csv"
         resultado = self.control.cargar_datos(ruta_archivo)
         self.assertEqual(len(resultado), 5)  # La línea duplicada aparece 2 veces
     def test_6_datos_nulos(self):
@@ -115,9 +128,6 @@ class TestControlArchivoCSV(unittest.TestCase):
         ruta_archivo = "archivosCSV/camposNulos.csv"
         with self.assertRaises(Exception):
             self.control.cargar_datos(ruta_archivo)
-
-        
-
 
 if __name__ == '__main__':
     unittest.main()

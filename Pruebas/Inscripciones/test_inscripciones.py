@@ -40,7 +40,8 @@ class TestControlArchivoCSV(unittest.TestCase):
     def test_cargar_datos(self):
         """Test para cargar datos desde un archivo CSV y contar materias por estudiante."""
         # Crear archivo temporal con datos de prueba
-        with tempfile.NamedTemporaryFile(mode='w+', newline='', delete=False, encoding='utf-8') as temp_csv:
+        with tempfile.NamedTemporaryFile(mode='w+', newline='', delete=False,
+                                          encoding='utf-8') as temp_csv:
             writer = csv.writer(temp_csv)
             writer.writerow(["nombre_estudiante", "nombre_materia"])
             writer.writerow(["Lulú López", "Matemáticas"])

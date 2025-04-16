@@ -1,5 +1,8 @@
-from inscripcion import Inscripcion
+"""
+Módulo que contiene la clase ControlProcesoInscripcion, que gestiona el proceso de inscripciones
+"""
 class ControlProcesoInscripcion:
+    # implementación
     """
     Clase que controla el proceso de inscripciones y calcula el total de materias por estudiante.
     """

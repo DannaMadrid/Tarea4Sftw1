@@ -100,19 +100,22 @@ class TestControlArchivoCSV(unittest.TestCase):
             1234567,Lulú López,1060,Administración”
         """
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV/archivosCSV/lineasDuplicadas.csv"
-        resultado = self.control.cargarDatos(ruta_archivo)
+        ruta_archivo = "archivosCSV\lineasDuplicadas.csv"
+        resultado = self.control.cargar_datos(ruta_archivo)
         self.assertEqual(len(resultado), 5)  # La línea duplicada aparece 2 veces
     def test_6_datos_nulos(self):
-        """Archivo con líneas duplicadas. 
-            En este caso supondremos que hay unas líneas así:
-            “1234567,Lulú López,1060,Administración 
-            1234567,Lulú López,1060,Administración”
+        """Archivo con datos nulos.
+            En este caso supondremos que hay unas lineas asi: “1234567,,1040,Cálculo  
+            9876534,Pepito Pérez,1040,Cálculo  
+            4567766,Calvin Clein,1050,Física I  
+            1234567,Lulú López,1060,Administración  
+            4567766,Calvin Clein,,Espíritu Empresarial”
         """
         #Ruta del archivo de prueba
         ruta_archivo = "archivosCSV/camposNulos.csv"
         with self.assertRaises(Exception):
-            self.control.cargarDatos(ruta_archivo)
+            self.control.cargar_datos(ruta_archivo)
+
         
 
 

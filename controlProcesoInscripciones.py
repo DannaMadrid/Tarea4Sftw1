@@ -11,7 +11,7 @@ class ControlProcesoInscripcion:
         totales = {}
         for inscripcion in self.inscripciones:
             estudiante = inscripcion.getestudiante()
-            nombre = estudiante.getNombreEstudiante()
+            nombre = estudiante.getnombreestudiante()
             if nombre in totales:
                 totales[nombre] += 1
             else:

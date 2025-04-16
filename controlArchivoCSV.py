@@ -1,14 +1,16 @@
+"""importar librerias y clases necesarias"""
 import csv
 from typing import List
 from inscripcion import Inscripcion
 from estudiantes import Estudiante
 from materia import Materia
 
-class ControlArchivoCSV: 
+class ControlArchivoCSV:
     """
     Clase que controla la carga de datos desde un archivo CSV y valida su formato.
     """
     def cargar_datos(self, ruta_archivo:str) -> List[Inscripcion]:
+        """ Carga los datos desde un archivo CSV y crea objetos de inscripción."""
         inscripciones = []
         filas_vistas = set()
 
@@ -18,7 +20,6 @@ class ControlArchivoCSV:
             for fila in lector:
                 if len(fila) != 4:
                     raise ValueError("Cada fila debe de tener 4 campos")
-                
                  # Crear la tupla con todos los campos
                 fila_normalizada = tuple(campo.strip() for campo in fila)
 
@@ -68,3 +69,4 @@ class ControlArchivoCSV:
         """Bucar la ruta del archivo CSV."""
 
         return "datos.csv"
+    

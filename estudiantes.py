@@ -1,3 +1,6 @@
+"""
+Modulo clase estudiante
+"""
 class Estudiante:
     """
     Clase Estudiante que representa a un estudiante con su cédula y nombre.

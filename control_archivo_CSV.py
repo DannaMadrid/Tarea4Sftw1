@@ -1,4 +1,6 @@
-"""importar librerias y clases necesarias"""
+""" 
+importar librerias y clases necesarias 
+"""
 import csv
 from typing import List
 from inscripcion import Inscripcion
@@ -51,14 +53,6 @@ class ControlArchivoCSV:
 
                 inscripciones.append(inscripcion)
 
-            # Mostrar los resultados para revisión visual
-            print("\n📄 Inscripciones cargadas:")
-            for i, ins in enumerate(inscripciones, 1):
-                print(f"{i}. Estudiante: {ins.getestudiante().getnombre_estudiante()} | "
-                f"Cédula: {ins.getestudiante().getcedula()} | "
-                f"Materia: {ins.getmateria().getnombre_materia()} | "
-                f"Código: {ins.getmateria().getcodigo()}")
-
             return inscripciones
     def validar_archivo(self, ruta_archivo: str) -> bool:
         """Valida si el archivo tiene la extensión CSV."""
@@ -67,6 +61,4 @@ class ControlArchivoCSV:
     def buscar_ruta_archivo(self) -> str:
         # Método simulado, normalmente se obtendría por entrada del usuario o búsqueda automática
         """Bucar la ruta del archivo CSV."""
-
         return "datos.csv"
-    

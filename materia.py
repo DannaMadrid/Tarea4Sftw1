@@ -1,4 +1,6 @@
-
+"""
+Modulo clase materias
+"""
 class Materia:
     """
      Clase Materia que representa una materia con su código y nombre.

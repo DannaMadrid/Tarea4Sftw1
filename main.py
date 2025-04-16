@@ -1,6 +1,6 @@
 """importando clases necesarias para el programa"""
-from controlArchivoCSV import ControlArchivoCSV
-from controlProcesoInscripciones import ControlProcesoInscripcion
+from control_archivo_CSV import ControlArchivoCSV
+from control_proceso_inscripciones import ControlProcesoInscripcion
 
 class Main:
     """Clase principal que ejecuta el programa."""
@@ -16,7 +16,7 @@ class Main:
 
             # Calcular total de materias por estudiante
             controlador_proceso = ControlProcesoInscripcion(inscripciones)
-            resultado = controlador_proceso.calcular_total_inscripciones()
+            resultado = controlador_proceso.calcular_total_materias()
 
             # Mostrar resultados
             print("\nCantidad de materias por estudiante:")

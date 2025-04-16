@@ -1,2 +1,2 @@
-class ControlArcivoCSV: 
+class ControlArchivoCSV: 
     pass

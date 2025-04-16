@@ -1,58 +1,54 @@
 """importando librerias necesarias para el test"""
 import unittest
-from datetime import date
 from controlArchivoCSV import ControlArchivoCSV
-from inscripcion import Inscripcion
-from estudiantes import Estudiante
-from materia import Materia
-
+from controlProcesoInscripciones import ControlProcesoInscripcion
 
 class TestInscripciones(unittest.TestCase):
     """Test para la clase Estudiante"""
 
-    def test_calcular_total_materias(self):
+    def setUp(self):
+        self.control_archivo = ControlArchivoCSV()
+        self.control_proceso = ControlProcesoInscripcion(inscripciones=[])
+
+    def test_calcular_total_inscripciones_desde_csv(self):
         """Test para calcular el total de materias inscritas por cada estudiante."""
-        estudiante1 = Estudiante("1234567", "Lulú López")
-        estudiante2 = Estudiante("9876543", "Carlos Pérez")
 
-        materia1 = Materia("1040", "Cálculo")
-        materia2 = Materia("1050", "Física")
+        ruta = "archivosCSV/valido.csv"
+        controlador_csv = ControlArchivoCSV()
+        inscripciones = controlador_csv.cargar_datos(ruta)
 
-        inscripciones = [
-            Inscripcion(estudiante1, materia1, date.today()),
-            Inscripcion(estudiante1, materia2, date.today()),
-            Inscripcion(estudiante2, materia1, date.today())
-        ]
+        controlador = ControlProcesoInscripcion(inscripciones)
+        resultado = controlador.calcular_total_inscripciones()
 
+        # Validaciones basadas en los datos del CSV
+        self.assertEqual(resultado["Lulú López"], 2)
+        self.assertEqual(resultado["Pepito Pérez"], 1)
+        self.assertEqual(resultado["Calvin Clein"], 2)
+
+    def test_calcular_total_materias_con_cedula_diferente(self):
+        """Calcular el total de materias para estudiantes con el mismo nombre y cédula diferente."""
+
+        # Crear un archivo CSV en memoria (como si fuera un archivo físico)
+        ruta_archivo = "archivosCSV/nombresIguales.csv"
+        # Cargar los datos usando el método cargar_datos
+        inscripciones = self.control_archivo.cargar_datos(ruta_archivo)
+
+        # Contador para las materias de cada estudiante, ahora usando cédula
         contador = {}
 
         for ins in inscripciones:
             estudiante = ins.getestudiante()
-            nombre = estudiante.getnombre_estudiante()
-            contador[nombre] = contador.get(nombre, 0) + 1
+            cedula = estudiante.getcedula()
+            contador[cedula] = contador.get(cedula, 0) + 1
 
-        self.assertEqual(contador["Lulú López"], 2)
-        self.assertEqual(contador["Carlos Pérez"], 1)
-
+        # Verificar que se cuenten correctamente las materias basadas en cédula
+        self.assertEqual(contador["1234567"], 2)  # Lulú López con cédula 1234567
+        self.assertEqual(contador["9876534"], 1)  # Pepito Pérez con cédula 9876534
+        self.assertEqual(contador["4567766"], 2)  # Calvin Clein con cédula 4567766
+        self.assertEqual(contador["9878989"], 1)  # Otro Pepito Pérez con cédula 9878989
 
 class TestControlArchivoCSV(unittest.TestCase):
     """Test para la clase ControlArchivoCSV que maneja la carga de datos desde un archivo CSV."""
-
-    def test_calcular_total_materias(self):
-        """Test para calcular el total de materias inscritas por cada estudiante."""
-        ruta_archivo = "archivosCSV/valido.csv"
-
-        inscripciones = self.control.cargar_datos(ruta_archivo)
-        contador = {}
-
-        for ins in inscripciones:
-            estudiante = ins.getestudiante()
-            nombre = estudiante.getnombre_estudiante()
-            contador[nombre] = contador.get(nombre, 0) + 1
-
-        self.assertEqual(contador["Lulú López"], 2)
-        self.assertEqual(contador["Pepito Pérez"], 1)
-        self.assertEqual(contador["Calvin Clein"], 2)
 
     def setUp(self):
         self.control = ControlArchivoCSV()
@@ -113,7 +109,7 @@ class TestControlArchivoCSV(unittest.TestCase):
             1234567,Lulú López,1060,Administración”
         """
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV\\lineasDuplicadas.csv"
+        ruta_archivo = "archivosCSV/lineasDuplicadas.csv"
         resultado = self.control.cargar_datos(ruta_archivo)
         self.assertEqual(len(resultado), 5)  # La línea duplicada aparece 2 veces
     def test_6_datos_nulos(self):

@@ -48,7 +48,7 @@ class TestControlArchivoCSV(unittest.TestCase):
         Comprueba que el método carga correctamente todos los datos cuando el archivo existe y tiene el formato esperado.
         """
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV\valido.csv"
+        ruta_archivo = "archivosCSV/valido.csv"
 
         # Crear instancia del controlador y ejecutar método
         controlador = ControlArchivoCSV()
@@ -56,24 +56,24 @@ class TestControlArchivoCSV(unittest.TestCase):
 
         # Verificar resultados esperados
         self.assertEqual(len(resultado), 5)
-        # ✅ Verificamos los datos del primer objeto Inscripcion
+        # Verifica los datos del primer objeto Inscripcion
         primera = resultado[0]
-        self.assertEqual(primera.getEstudiante().getNombreEstudiante(), "Lulú López")
-        self.assertEqual(primera.getEstudiante().getCedula(), "1234567")
-        self.assertEqual(primera.getMateria().getCodigo(), "1040")
-        self.assertEqual(primera.getMateria().getNombreMateria(), "Cálculo")
+        self.assertEqual(primera.getestudiante().getnombre_estudiante(), "Lulú López")
+        self.assertEqual(primera.getestudiante().getcedula(), "1234567")
+        self.assertEqual(primera.getmateria().getcodigo(), "1040")
+        self.assertEqual(primera.getmateria().getnombre_materia().strip(), "Cálculo")
 
     def test_1_ruta_inexistente(self):
         """Test ruta de archivos inexistente"""
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV\noExiste.csv"
+        ruta_archivo = "archivosCSV/noExiste.csv"
 
         with self.assertRaises(FileNotFoundError):
             self.control.cargar_datos(ruta_archivo)
     def test_2_archivo_vacio(self):
         """Test Archivo CSV vacío, es decir, el archivo existe pero no contiene ningún dato."""
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV\vacio.csv"
+        ruta_archivo = "archivosCSV/vacio.csv"
         resultado = self.control.cargar_datos(ruta_archivo)
         self.assertEqual(resultado, [])
     def test_3_archivo_datos_incompletos(self):
@@ -81,17 +81,17 @@ class TestControlArchivoCSV(unittest.TestCase):
             En este caso supondremos que hay una línea así: “9876534,Pepito Pérez,1040 ”
         """
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV\campoInvalido.csv"
-        with self.assertRaises(Exception):
+        ruta_archivo = "archivosCSV/campoInvalido.csv"
+        with self.assertRaises(ValueError):
             self.control.cargar_datos(ruta_archivo)
     def test_4_campos_mal_formato(self):
         """Archivo con campos que no cumplen formato.
             En este caso supondremos que hay una línea así:“123456a,Lulú López,1040,Cálculo”
         """
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV\campoInvalido.csv"
+        ruta_archivo = "archivosCSV/campoInvalido.csv"
         with self.assertRaises(ValueError):
-            self.control.cargarDatos(ruta_archivo)
+            self.control.cargar_datos(ruta_archivo)
 
     def test_5_archivo_lineas_duplicadas(self):
         """Archivo con líneas duplicadas. 
@@ -100,7 +100,7 @@ class TestControlArchivoCSV(unittest.TestCase):
             1234567,Lulú López,1060,Administración”
         """
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV\archivosCSV\lineasDuplicadas.csv"
+        ruta_archivo = "archivosCSV/archivosCSV/lineasDuplicadas.csv"
         resultado = self.control.cargarDatos(ruta_archivo)
         self.assertEqual(len(resultado), 5)  # La línea duplicada aparece 2 veces
     def test_6_datos_nulos(self):
@@ -110,7 +110,7 @@ class TestControlArchivoCSV(unittest.TestCase):
             1234567,Lulú López,1060,Administración”
         """
         #Ruta del archivo de prueba
-        ruta_archivo = "archivosCSV\camposNulos.csv"
+        ruta_archivo = "archivosCSV/camposNulos.csv"
         with self.assertRaises(Exception):
             self.control.cargarDatos(ruta_archivo)
         
